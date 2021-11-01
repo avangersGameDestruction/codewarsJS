@@ -57,3 +57,26 @@ function narcissistic(value) {
     }
     return _result === value;
 }
+
+// Detect Pangram
+function isPangram(string) {
+    const a = 'abcdefghijklmnopqrstuvwxyz';
+    const b = string.toLowerCase();
+
+    for (let i = 0; i < a.length - 1; i += 1) {
+        if (b.indexOf(a[i]) === -1) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// Regex validate PIN code
+function validatePIN(pin) {
+    return (/^[0-9]{4}$|^[0-9]{6}$/).test(pin);
+}
+
+// Unique In Order
+var uniqueInOrder = function(iterable) {
+    return [...iterable].filter((a, i) => a !== iterable[i - 1])
+}
