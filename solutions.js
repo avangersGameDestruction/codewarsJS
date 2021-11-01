@@ -80,3 +80,15 @@ function validatePIN(pin) {
 var uniqueInOrder = function(iterable) {
     return [...iterable].filter((a, i) => a !== iterable[i - 1])
 }
+
+// You're a square!
+var isSquare = function(n) {
+    let a;
+    for (let i = 0; i < n + 1; i++) {
+        a = n / i;
+        if (i === a) {
+            return true;
+        }
+    }
+    if (n < 0) { return false; } else if (a == 1) { return false; } else { return true; }
+}
