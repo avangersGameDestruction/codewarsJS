@@ -139,3 +139,55 @@ function getPINs(observed) {
         }[t]))
         .reduce((pre, cur) => [].concat.apply([], pre.map(t => cur.map(g => t + g))));
 }
+
+// Calculator
+const calculator = operation => {
+
+    // verify that the string with the operation has the right format:
+    //   - a number
+    //   - optionally followed by 0 or more:
+    //       - a space
+    //       - an operator (+-*/)
+    //       - a space
+    //       - another number
+    if (!operation.match(/^\d+( [\+\-\/\*] \d+)*$/)) return null;
+
+    // easy solution: now that we know the string has the format that we expect, 
+    // return (eval(operation));
+    // ...but someone did it already, so let's go the long way :P
+
+
+    // break the string by spaces
+    let ops = operation.split(" ");
+    let opsSimple = [];
+
+    // multiplication and division take priority
+    // we create a new array that will only have numbers and + or -
+    for (x = 0; x < ops.length; x++) {
+        if (ops[x] === '*') {
+            const val = opsSimple.pop();
+            opsSimple.push(val * ops[x + 1]);
+            x++;
+        } else if (ops[x] === '/') {
+            // do not allow division by zero!
+            if (ops[x + 1] === "0") return "Error! Division by zero!";
+            const val = opsSimple.pop();
+            opsSimple.push(val / ops[x + 1]);
+            x++;
+        } else {
+            opsSimple.push(ops[x]);
+        }
+    }
+
+    // calculate the addtiions and substractions sequentially
+    let result = parseInt(opsSimple[0]);
+    for (x = 1; x < opsSimple.length; x = x + 2) {
+        if (opsSimple[x] === '+') {
+            result += opsSimple[x + 1];
+        } else {
+            result -= opsSimple[x + 1];
+        }
+    }
+
+    return result;
+}
